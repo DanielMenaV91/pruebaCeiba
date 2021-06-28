@@ -1,39 +1,31 @@
-import React, { Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Container from "../../components/container/Container";
 import Users from "../../components/users/Users";
+import { useRouter } from "next/router";
 
-export default function index({ users }) {
+export default function index() {
+  const router = useRouter();
+  const { route } = router;
+
+  useEffect(() => {
+    validateToken();
+  }, []);
+
+  const validateToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/");
+    }
+  };
+
   return (
-    <Container>
+    <Container route={route}>
       <Head>
         <title>Prueba ceiba punto 2</title>
       </Head>
       <h1>Usuarios</h1>
-      <Users users={users}></Users>
+      <Users></Users>
     </Container>
   );
-}
-
-export async function getStaticProps({ params }) {
-  const res = await fetch("https://reqres.in/api/users?page=2");
-  const users = await res.json();
-  try {
-    if (
-      typeof users !== "undefined" &&
-      users !== null &&
-      Array.isArray(users.data)
-    ) {
-      return { props: { users: users } };
-    } else {
-      return {
-        props: {},
-      };
-    }
-  } catch (error) {
-    console.log("Error al momento de consultar el servicio", error);
-    return {
-      props: {},
-    };
-  }
 }

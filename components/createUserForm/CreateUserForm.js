@@ -2,11 +2,27 @@ import React, { Fragment, useState } from "react";
 
 export default function CreateUserForm() {
   const [data, setData] = useState({
-    nombre: "",
-    trabajo: "",
-    id: "",
+    name: "",
+    job: "",
   });
 
+  const postCreate = (credencial) => {
+    let url = "https://reqres.in/api/users";
+    const token = localStorage.getItem("token");
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(credencial),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -16,7 +32,7 @@ export default function CreateUserForm() {
 
   const enviarDatos = (event) => {
     event.preventDefault();
-    console.log(data.nombre + "" + "" + data.trabajo + "" + data.id);
+    postCreate(data);
   };
 
   return (
@@ -27,7 +43,7 @@ export default function CreateUserForm() {
           <input
             type="text"
             className="form-control"
-            name="nombre"
+            name="name"
             placeholder="Ingrese el nombre"
             onChange={handleInputChange}
           />
@@ -37,18 +53,8 @@ export default function CreateUserForm() {
           <input
             type="text"
             className="form-control"
-            name="trabajo"
+            name="job"
             placeholder="Ingrese el trabajo"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Id</label>
-          <input
-            type="text"
-            className="form-control"
-            name="id"
-            placeholder="Ingrese el id"
             onChange={handleInputChange}
           />
         </div>

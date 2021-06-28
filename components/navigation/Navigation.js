@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Navigation(params) {
+export default function Navigation({ route }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -18,22 +18,28 @@ export default function Navigation(params) {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/login">
+              <a
+                className={"nav-link " + (route === "/login" ? " active" : "")}
+                href="/login"
+              >
                 Login
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/usuarios">
+              <a
+                className={
+                  "nav-link " + (route === "/usuarios" ? " active" : "")
+                }
+                href="/usuarios"
+              >
                 Usuarios
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/crear">
+              <a
+                className={"nav-link " + (route === "/crear" ? " active" : "")}
+                href="/crear"
+              >
                 Crear
               </a>
             </li>

@@ -1,10 +1,30 @@
 import React, { useState } from "react";
-
+import { useRouter } from "next/router";
 export default function LoginForm() {
   const [data, setData] = useState({
-    correo: "",
-    clave: "",
+    email: "",
+    password: "",
   });
+  const [token, setToken] = useState("");
+  const router = useRouter();
+
+  const postLogin = (credencial) => {
+    let url = "https://reqres.in/api/login";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(credencial),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((rest) => rest.json())
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        router.push("/");
+      });
+  };
 
   const handleInputChange = (event) => {
     setData({
@@ -15,7 +35,7 @@ export default function LoginForm() {
 
   const enviarDatos = (event) => {
     event.preventDefault();
-    console.log(data.correo + "" + "" + data.clave);
+    postLogin(data);
   };
 
   return (
@@ -25,7 +45,7 @@ export default function LoginForm() {
         <input
           type="email"
           className="form-control"
-          name="correo"
+          name="email"
           placeholder="Ingrese su correo"
           onChange={handleInputChange}
         />
@@ -35,7 +55,7 @@ export default function LoginForm() {
         <input
           type="password"
           className="form-control"
-          name="clave"
+          name="password"
           placeholder="Ingrese su contraseña"
           onChange={handleInputChange}
         />

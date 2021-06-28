@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Head from "next/head";
 import Navigation from "../navigation/Navigation";
 
-export default function Container(props) {
+export default function Container({ route, children }) {
   return (
     <Fragment>
       <Head>
@@ -14,8 +14,8 @@ export default function Container(props) {
           crossorigin="anonymous"
         ></link>
       </Head>
-      <Navigation></Navigation>
-      <div className="container p-4">{props.children}</div>
+      <Navigation route={route}></Navigation>
+      <div className="container p-4">{children}</div>
     </Fragment>
   );
 }
